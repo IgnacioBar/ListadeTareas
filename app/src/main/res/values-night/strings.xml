@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="titleTask">Nombre de tarea</string>
+    <string name="text_description">description</string>
+</resources>
