@@ -1,12 +1,9 @@
 package com.example.listadetareas.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.*
 import com.example.listadetareas.databinding.ActivityMainBinding
@@ -27,7 +24,6 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     //private lateinit var mGridLayout: GridLayoutManager
 
     private val mainViewModel by viewModels<TasksViewModel>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,18 +58,21 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     }
 
     private fun initViewModel() {
-        mainViewModel.tasks.observe(this) {
-            if (it.isNotEmpty())
-                mAdapter = TasksAdapter(it, this)
+
+        mainViewModel.tasks.observeForever { tasksList ->
+            if (tasksList.isNotEmpty())
+                mAdapter = TasksAdapter(tasksList, this)
                 mBinding.recyclerView.adapter = mAdapter
-                mBinding.recyclerView.adapter?.notifyItemInserted(tasks.size - 1)
+                mBinding.recyclerView.adapter?.notifyItemChanged(tasksList.size - 1)
         }
+
     }
+
 
     //Esta funcion se llama desde el OnCreate
     private fun initRecyclerView() {
         //una unica columna
-        mAdapter = TasksAdapter(mutableListOf(), this)
+        mAdapter = TasksAdapter(tasks, this)
         mLinearLayout = LinearLayoutManager(this)
         //Grid
         // mGridLayout = GridLayoutManager(this, spanCount)
@@ -86,23 +85,12 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
     override fun onDeleteTask(taskModel: TaskModel) {
         // Eliminar la tarea de la lista
-        //Obtenemos la posicion del item y lo eliminamos
-        val position = tasks.indexOfFirst { it.id == taskModel.id }
-        tasks.removeAt(position)
-        // Notificar al adaptador sobre el cambio en la lista
-        mBinding.recyclerView.adapter?.notifyItemRemoved(position)
+        mainViewModel.onDeleteTask(taskModel)
+        Toast.makeText(this, "Item eliminado", Toast.LENGTH_SHORT).show()
     }
 
     override fun onUpdateTask(taskModel: TaskModel) {
-        val position = tasks.indexOfFirst { it.id == taskModel.id }
-        tasks.forEach {
-            if (it.id == taskModel.id) {
-                it.finish = taskModel.finish
-                it.name = taskModel.name
-                it.description = taskModel.description
-            }
-        }
-        mBinding.recyclerView.adapter?.notifyItemChanged(position)
+        mainViewModel.onUpdateTask(taskModel)
         Toast.makeText(this, "Item actualizado", Toast.LENGTH_SHORT).show()
     }
 
