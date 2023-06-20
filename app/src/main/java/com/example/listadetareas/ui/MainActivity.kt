@@ -57,19 +57,6 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         }
     }
 
-    private fun initViewModel() {
-
-        mainViewModel.tasks.observeForever { tasksList ->
-            if (tasksList.isNotEmpty())
-                mAdapter = TasksAdapter(tasksList, this)
-                mBinding.recyclerView.adapter = mAdapter
-                mBinding.recyclerView.adapter?.notifyItemChanged(tasksList.size - 1)
-        }
-
-    }
-
-
-    //Esta funcion se llama desde el OnCreate
     private fun initRecyclerView() {
         //una unica columna
         mAdapter = TasksAdapter(tasks, this)
@@ -82,6 +69,23 @@ class MainActivity : AppCompatActivity(), OnClickListener {
             adapter = mAdapter
         }
     }
+
+    private fun initViewModel() {
+
+        mainViewModel.tasks.observe(this) { tasksList ->
+            //Si el listado de tareas cambia, se actualiza el RV
+
+            if (tasksList.isNotEmpty())
+                mAdapter = TasksAdapter(tasksList, this)
+                mBinding.recyclerView.adapter = mAdapter
+                mBinding.recyclerView.adapter?.notifyItemChanged(tasksList.size - 1)
+        }
+
+    }
+
+
+    //Esta funcion se llama desde el OnCreate
+
 
     override fun onDeleteTask(taskModel: TaskModel) {
         // Eliminar la tarea de la lista
