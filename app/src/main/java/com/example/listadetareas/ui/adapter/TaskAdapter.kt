@@ -1,4 +1,4 @@
-package com.example.listadetareas.ui
+package com.example.listadetareas.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -17,7 +17,8 @@ import com.example.listadetareas.ui.model.TaskModel
  *****/
 
 class TasksAdapter(private val taskModel: MutableList<TaskModel>,
-                   private var listener:OnClickListener) :
+                   private var listener: OnClickListener
+) :
     RecyclerView.Adapter<TaskViewHolder>() {
 
     //Devuelve el item al ViewHolder por cada objeto del listado

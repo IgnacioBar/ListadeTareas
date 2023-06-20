@@ -1,4 +1,4 @@
-package com.example.listadetareas.ui
+package com.example.listadetareas.ui.adapter
 
 import com.example.listadetareas.ui.model.TaskModel
 

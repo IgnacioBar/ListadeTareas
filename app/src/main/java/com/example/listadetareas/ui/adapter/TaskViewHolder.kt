@@ -1,8 +1,9 @@
-package com.example.listadetareas.ui
+package com.example.listadetareas.ui.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.listadetareas.databinding.ItemTaskBinding
+import com.example.listadetareas.ui.adapter.OnClickListener
 import com.example.listadetareas.ui.model.TaskModel
 
 /*****
@@ -28,9 +29,14 @@ class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         //Si quieres click sobre toda la celda
         itemView.setOnClickListener { listener.onClickItem(taskModel) }
+        //Si quieres un click largo sobre toda la celda
+        itemView.setOnLongClickListener {
+            listener.onDeleteTask(taskModel = taskModel)
+            true
+        }
 
         //Click sobre el borrado del item
-        mBinding.imgDelete.setOnClickListener { listener.onDeleteTask(taskModel = taskModel) }
+        //mBinding.imgDelete.setOnClickListener { listener.onDeleteTask(taskModel = taskModel) }
 
         mBinding.imgReload.setOnClickListener {
             val updateTask = TaskModel(
