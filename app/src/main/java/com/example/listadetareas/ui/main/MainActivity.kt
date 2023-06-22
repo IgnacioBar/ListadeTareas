@@ -1,31 +1,34 @@
-package com.example.listadetareas.ui
+package com.example.listadetareas.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.*
 import com.example.listadetareas.databinding.ActivityMainBinding
+import com.example.listadetareas.ui.adapter.OnClickListener
+import com.example.listadetareas.ui.adapter.TasksAdapter
 import com.example.listadetareas.ui.model.TasksModel
 
 class MainActivity : AppCompatActivity(), OnClickListener {
-    //private lateinit var recyclerView: RecyclerView
-    private var tasks: MutableList<TasksModel> = mutableListOf()
 
     private lateinit var mBinding: ActivityMainBinding
-
     private lateinit var mAdapter: TasksAdapter
+
     //LinearLayout
     private lateinit var mLinearLayout: LayoutManager
     //GridLayout
     //private lateinit var mGridLayout: GridLayoutManager
+
+    private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
+        initViewModel()
         initRecyclerView()
 
         // Manejar el clic en el botón de agregar tarea
@@ -33,16 +36,21 @@ class MainActivity : AppCompatActivity(), OnClickListener {
             // Obtener el texto ingresado en el campo de texto
             val taskName = mBinding.taskEditText.text.toString().trim()
             val taskDescription = mBinding.etDescription.text.toString().trim()
-
-            // Verificar si el texto no está vacío
+            // Verificar si el texto del nombre no está vacío
             if (taskName.isNotEmpty()) {
                 // Agregar la tarea a la lista
-                tasks.add(
+                /*tasks.add(
                     TasksModel(id = System.currentTimeMillis(),  name = taskName, description = taskDescription)
+                )*/
+                mainViewModel.onAddTask(
+                    TasksModel(
+                        //id = System.currentTimeMillis(),
+                        name = taskName,
+                        description = taskDescription
+                    )
                 )
-                Log.i("DEVELOPRAFA",tasks.toString())
                 // Notificar al adaptador sobre la nueva tarea agregada
-                mBinding.recyclerView.adapter?.notifyItemInserted(tasks.size - 1)
+                //mBinding.recyclerView.adapter?.notifyItemInserted(tasks.size - 1)
 
                 // Limpiar el campo de texto
                 mBinding.taskEditText.text.clear()
@@ -51,10 +59,21 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         }
     }
 
+    private fun initViewModel() {
+
+        mainViewModel.onGetAllTasks()
+
+        mainViewModel.tasks.observe(this) { tasksList ->
+            mAdapter = TasksAdapter(tasksList, this)
+            mBinding.recyclerView.adapter = mAdapter
+            mBinding.recyclerView.adapter?.notifyItemChanged(tasksList.size - 1)
+        }
+    }
+
     private fun initRecyclerView() {
         //una unica columna
         mLinearLayout = LinearLayoutManager(this)
-        mAdapter = TasksAdapter(tasks, this)
+        mAdapter = TasksAdapter(mutableListOf(), this)
         //Grid
         // mGridLayout = GridLayoutManager(this, spanCount)
         mBinding.recyclerView.apply {
@@ -67,29 +86,21 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     override fun onDeleteTasks(tasksmodel: TasksModel) {
         // Eliminar la tarea de la lista
         //Obtenemos la posicion del item y lo eliminamos
-        val position = tasks.indexOfFirst { it.id == tasksmodel.id }
-        tasks.removeAt(position)
+        /*val position = tasks.indexOfFirst { it.id == tasksmodel.id }
+        tasks.removeAt(position)*/
         // Notificar al adaptador sobre el cambio en la lista
-        mBinding.recyclerView.adapter?.notifyItemRemoved(position)
+        //mBinding.recyclerView.adapter?.notifyItemRemoved(position)
+        mainViewModel.onDeleteTask(tasksmodel)
         Toast.makeText(this, "Item eliminado", Toast.LENGTH_SHORT).show()
-
     }
 
     override fun onUpdateTasks(tasksmodel: TasksModel) {
-        val position = tasks.indexOfFirst { it.id == tasksmodel.id }
-        tasks.forEach {
-            if(it.id == tasksmodel.id) {
-                it.finish = tasksmodel.finish
-                it.name = tasksmodel.name
-                it.description = tasksmodel.description
-            }
-        }
-        mBinding.recyclerView.adapter?.notifyItemChanged(position)
+        mainViewModel.onUpdateTask(tasksmodel)
         Toast.makeText(this, "Item actualizado", Toast.LENGTH_SHORT).show()
     }
 
     override fun onWarning(tasksmodel: TasksModel) {
-        Toast.makeText(this,"Has pulsado la tarea: ${tasksmodel.name} ",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Has pulsado la tarea: ${tasksmodel.name} ", Toast.LENGTH_SHORT).show()
     }
 
 }

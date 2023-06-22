@@ -1,4 +1,4 @@
-package com.example.listadetareas.ui
+package com.example.listadetareas.ui.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
