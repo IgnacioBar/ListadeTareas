@@ -16,7 +16,7 @@ import com.example.listadetareas.ui.model.TaskModel
  * All rights reserved 2023.
  *****/
 
-class TasksAdapter(private val taskModel: MutableList<TaskModel>,
+class TasksAdapter(private val taskModel: List<TaskModel>,
                    private var listener: OnClickListener
 ) :
     RecyclerView.Adapter<TaskViewHolder>() {

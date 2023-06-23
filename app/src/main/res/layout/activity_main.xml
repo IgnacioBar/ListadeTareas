@@ -13,22 +13,10 @@
         android:layout_marginBottom="16dp"
         tools:listitem="@layout/item_task"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/etNameTask"
+        app:layout_constraintBottom_toTopOf="@id/btnAddTask"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <EditText
-        android:id="@+id/etNameTask"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:hint="@string/hint_new_task"
-        android:autofillHints="name"
-        android:inputType="text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView"
-        app:layout_constraintBottom_toTopOf="@id/btnAddTask"/>
 
     <Button
         android:id="@+id/btnAddTask"
@@ -37,7 +25,7 @@
         android:text="@string/text_btn_new_task"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etNameTask"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

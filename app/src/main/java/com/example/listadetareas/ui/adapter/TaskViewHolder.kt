@@ -46,7 +46,6 @@ class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             )
             listener.onUpdateTask(taskModel = updateTask)
         }
-
     }
 
 }
