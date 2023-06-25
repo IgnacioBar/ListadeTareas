@@ -19,6 +19,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        viewBinding true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -44,8 +48,12 @@ def activity_version = "1.7.2"
 def viewmodel_version = "2.6.1"
 def livedata_version = "2.6.1"
 def livedata_extension_version = "2.2.0"
+
 def room_version = "2.5.2"
 def retrofit_version = "2.9.0"
+
+def room_version = "2.5.1"
+
 
 dependencies {
 
@@ -75,6 +83,7 @@ dependencies {
     //Retrofit 2: Librería encargada del consumo de las API.
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
 
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
