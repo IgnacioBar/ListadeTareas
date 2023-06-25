@@ -7,12 +7,19 @@ import androidx.room.RoomDatabase
  * Proyect: Lista de tareas
  * Package: com.example.listadetareas.data
  *
+ * Created by Rafael Barbeyto Torrellas on 20/06/2023 at 16:09
+
  * Created by Rafael Barbeyto Torrellas on 22/06/2023 at 12:22
+
  * More info: https://www.linkedin.com/in/rafa-barbeyto/
  *
  * All rights reserved 2023.
  *****/
 @Database(entities = [TasksEntity::class], version = 1)
+
+abstract class TasksDatabase:RoomDatabase() {
+
 abstract class TasksDatabase: RoomDatabase() {
+
     abstract fun taskDao():TasksDao
 }

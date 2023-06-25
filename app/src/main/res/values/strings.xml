@@ -6,4 +6,13 @@
     <string name="contentDescriptionDelete">Delete</string>
     <string name="hint_new_task">Nueva tarea</string>
     <string name="text_btn_new_task">Agregar tarea</string>
+
+    <string name="text_title_alert_delete">Confirmación borrado</string>
+    <string name="text_explain_delete">"¿desea eliminar la tarea  "</string>
+    <string name="text_btn_add_task">Añadir tarea</string>
+    <string name="text_btn_cancel_task">Cancelar</string>
+    <string name="hint_task_name_dialog">Nombre tarea</string>
+    <string name="hint_description_task_dialog">Descripcion</string>
+=======
+
 </resources>

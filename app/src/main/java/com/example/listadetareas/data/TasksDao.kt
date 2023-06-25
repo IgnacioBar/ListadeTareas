@@ -10,6 +10,7 @@ import androidx.room.Update
  * Proyect: Lista de tareas
  * Package: com.example.listadetareas.data
  *
+ * Created by Rafael Barbeyto Torrellas on 20/06/2023 at 16:24
  * Created by Rafael Barbeyto Torrellas on 22/06/2023 at 12:36
  * More info: https://www.linkedin.com/in/rafa-barbeyto/
  *
@@ -19,6 +20,21 @@ import androidx.room.Update
 interface TasksDao {
 
     @Query("SELECT * FROM tasksList")
+
+    fun getTasks(): MutableList<TasksEntity>
+
+    @Query("SELECT * FROM tasksList WHERE finish = :finished ")
+    fun getTasksFinished(finished: Boolean = true): MutableList<TasksEntity>
+
+    @Insert
+    suspend fun addTask(item: TasksEntity)
+
+    @Update
+    suspend fun updateTask(item: TasksEntity)
+
+    @Delete
+    suspend fun deleteTask(item: TasksEntity)
+
     fun getAllTasks(): MutableList<TasksEntity>
 
     @Insert
@@ -29,5 +45,6 @@ interface TasksDao {
 
     @Delete
     suspend fun deleteTask(taskEntity: TasksEntity)
+
 
 }
